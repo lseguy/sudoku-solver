@@ -6,7 +6,7 @@ def main():
     with open('data/45-numbers.txt') as f:
         data = f.readline().strip()
         grid = Grid.from_data(data)
-        print(grid)
+        gui.start_gui(grid)
 
 
 if __name__ == '__main__':
