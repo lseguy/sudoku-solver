@@ -1,4 +1,8 @@
 class Grid:
+    """
+    Represents a grid of Sudoku.
+    Rows and columns are numbered from 0 to 8 with (0,0) being the top-left corner.
+    """
     def __init__(self):
         self._grid = [[0] * 9 for _ in range(9)]
 

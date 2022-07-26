@@ -1,3 +1,5 @@
+import time
+
 from grid import Grid
 from typing import Optional
 
@@ -9,6 +11,7 @@ def _is_cell_valid(grid: Grid, row: int, column: int, value: int) -> bool:
         if i != column and grid.get_number(row, i) == value:  # already the same value in the row
             return False
 
+    # The grid is made of 9 regions with 3x3 cells
     region_x = row // 3
     region_y = column // 3
     for dx in range(3):
@@ -29,7 +32,7 @@ def _is_grid_filled(grid: Grid):
     return True
 
 
-def _get_candidates(grid: Grid, row: int, column: int):
+def _get_candidate_numbers(grid: Grid, row: int, column: int):
     candidates = set()
 
     for i in range(1, 10):
@@ -39,26 +42,24 @@ def _get_candidates(grid: Grid, row: int, column: int):
     return candidates
 
 
-def solve(grid: Grid) -> Optional[Grid]:
-    # import time
-    # time.sleep(0.05)
-    # print(grid)
-    # print()
+def solve(grid: Grid, sleep_time=0) -> bool:
+    if sleep_time:
+        time.sleep(sleep_time)
 
     if _is_grid_filled(grid):
-        return grid
+        return True
 
     for row in range(9):
         for col in range(9):
             if not grid.get_number(row, col):  # cell is empty
-                # Try all possible values
-                for candidate in _get_candidates(grid, row, col):
+                # Try all valid values for this cell
+                for candidate in _get_candidate_numbers(grid, row, col):
                     grid.set_number(row, col, candidate)
-                    solution = solve(grid)
-                    if solution:
-                        return solution
+                    has_solution = solve(grid, sleep_time)
+                    if has_solution:
+                        return True
 
                     # Invalid state, backtrack
                     grid.empty_cell(row, col)
 
-                return None
+                return False
