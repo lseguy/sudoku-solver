@@ -40,7 +40,7 @@ def _display_grid(grid: Grid):
             for row in range(9):
                 for col in range(9):
                     number = grid.get_number(row, col)
-                    if number != 0:
+                    if number:
                         x = col * offset + CELL_H_PADDING
                         y = row * offset + CELL_V_PADDING
 

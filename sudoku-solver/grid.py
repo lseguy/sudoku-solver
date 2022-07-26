@@ -1,9 +1,6 @@
 class Grid:
-    def __init__(self, grid=None):
-        if not grid:
-            self._grid = [[0] * 9 for i in range(9)]
-        else:
-            self._grid = grid
+    def __init__(self):
+        self._grid = [[0] * 9 for _ in range(9)]
 
     @classmethod
     def from_data(cls, serialized_grid: str):
@@ -39,10 +36,16 @@ class Grid:
         return grid
 
     def set_number(self, row, column, value):
+        if value < 0 or value > 9:
+            raise ValueError('A cell must contain a value between 1 and 9')
         self._grid[row][column] = value
 
     def get_number(self, row, column):
-        return self._grid[row][column]
+        value = self._grid[row][column]
+        return value if value != 0 else None
+
+    def empty_cell(self, row, column):
+        self._grid[row][column] = 0
 
     def __str__(self):
         result = []
